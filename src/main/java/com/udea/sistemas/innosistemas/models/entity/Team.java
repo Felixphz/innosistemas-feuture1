@@ -3,9 +3,11 @@ package com.udea.sistemas.innosistemas.models.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Entity
 @Table(name = "teams", schema="public")
+@Data
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Teams_id_gen")
@@ -26,36 +28,5 @@ public class Team {
     @Column(name = "num_integrantes", nullable = false)
     private Integer numIntegrantes;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getProyectId() {
-        return proyectId;
-    }
-
-    public void setProyectId(Integer proyectId) {
-        this.proyectId = proyectId;
-    }
-
-    public String getNameTeam() {
-        return nameTeam;
-    }
-
-    public void setNameTeam(String nameTeam) {
-        this.nameTeam = nameTeam;
-    }
-
-    public Integer getNumIntegrantes() {
-        return numIntegrantes;
-    }
-
-    public void setNumIntegrantes(Integer numIntegrantes) {
-        this.numIntegrantes = numIntegrantes;
-    }
 
 }

@@ -28,4 +28,34 @@ public class TeamService{
         return false;
     }
 
+    public boolean updateTeam(TeamDto teamDto) {
+        try{
+            if(teamDto.isNotnull()){
+                System.out.println("entramos al if del try catch");
+                Optional<Team> opTeam = teamRepository.findById(teamDto.getId());
+                if(opTeam.isPresent()) {
+
+                    Team team = opTeam.get();
+                    team.setNameTeam(teamDto.getNameTeam());
+                    team.setProyectId(teamDto.getProyectId());
+                    team.setNumIntegrantes(teamDto.getNumIntegrantes());
+                    teamRepository.save(team);
+                    System.out.println("el team se ha actualizado");
+                    return true;
+                }
+
+
+
+            }
+
+        }catch (Exception e){
+
+            System.out.println("Error al actualizar el equipo: " + e.getMessage());
+            return false;
+        }
+
+        return false;
+
+    }
+
 }

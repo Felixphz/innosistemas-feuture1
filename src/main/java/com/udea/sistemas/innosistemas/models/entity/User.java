@@ -5,9 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "\"Users\"")
+@Table(name = "users", schema="public")
 public class User {
-    @SequenceGenerator(name = "Users_id_gen", sequenceName = "Teams_id_team_seq", allocationSize = 1)
     @EmbeddedId
     private UserId id;
 

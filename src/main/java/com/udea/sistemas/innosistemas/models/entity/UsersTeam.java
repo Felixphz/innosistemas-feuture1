@@ -6,7 +6,7 @@ import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "\"UsersTeams\"")
+@Table(name = "usersTeam", schema="public")
 public class UsersTeam {
     @SequenceGenerator(name = "UsersTeams_id_gen", sequenceName = "Teams_id_team_seq", allocationSize = 1)
     @EmbeddedId

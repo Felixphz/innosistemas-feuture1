@@ -94,4 +94,24 @@ public class TeamController {
          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<?> deleteTeam(@PathVariable int id) {
+            if(teamService.deleteTeam(id)){
+                return ResponseEntity.ok().build();
+            }
+
+        return ResponseEntity.notFound().build();
+
+
+     @PutMapping("update")
+    public ResponseEntity<?> updateTeam(@RequestBody TeamDto teamDto) {
+
+        if(teamService.updateTeam(teamDto)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+     }
+
+
 }

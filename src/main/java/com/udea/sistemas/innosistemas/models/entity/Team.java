@@ -6,9 +6,11 @@ import java.util.Set;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Entity
 @Table(name = "teams", schema="public")
+@Data
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

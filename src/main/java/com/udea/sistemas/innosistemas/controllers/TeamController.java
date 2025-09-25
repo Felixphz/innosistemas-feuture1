@@ -1,12 +1,16 @@
 package com.udea.sistemas.innosistemas.controllers;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.udea.sistemas.innosistemas.repository.UsersTeamRepository;
 import com.udea.sistemas.innosistemas.models.dto.TeamDto;
+import com.udea.sistemas.innosistemas.models.dto.TeamShowDto;
 import com.udea.sistemas.innosistemas.models.dto.UserDto;
 import com.udea.sistemas.innosistemas.models.entity.Project;
 import com.udea.sistemas.innosistemas.models.entity.Team;
@@ -30,6 +34,27 @@ public class TeamController {
     public TeamController(TeamRepository teamRepository, UsersTeamRepository usersTeamRepository) {
         this.teamRepository = teamRepository;
         this.usersTeamRepository = usersTeamRepository;
+    }
+
+    @GetMapping("/getAllTeam")
+    @Operation(summary = "Get all teams", description = "Retrieves a list of all teams in the system")
+    public ResponseEntity<List<TeamShowDto>> getAllTeams() {
+        try {
+            List<TeamShowDto> teamDtos = teamRepository.findAll().stream().map(team -> new TeamShowDto(
+                    team.getIdTeam(),
+                    team.getNameTeam(),
+                    team.getProject().getId(),
+                    team.getProject().getNameProject(),
+                    team.getProject().getCourseId(),
+                    team.getMembers().stream().map(member -> new UserDto(
+                            member.getUser().getEmail(),
+                            member.getUser().getNameUser()
+                    )).toList()
+            )).toList();
+            return ResponseEntity.ok(teamDtos);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PostMapping("/createTeam")

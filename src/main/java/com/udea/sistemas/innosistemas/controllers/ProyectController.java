@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @RestController
-@RequestMapping("/proyects")
+@RequestMapping("/api/projects")
 @Tag(name = "Projects", description = "Endpoints for managing Projects")
 public class ProyectController {
     private final ProjectService proyectService;
@@ -39,7 +39,7 @@ public class ProyectController {
     public ResponseEntity<List<ProjectDto>> getAllProjects() {
         try {
             List<ProjectDto> projects = projectRepository.findAll().stream()
-                    .map(proj -> new ProjectDto(proj.getNameProject()))
+                    .map(proj -> new ProjectDto(proj.getNameProject(),proj.getId()))
                     .toList();
             if (projects.isEmpty()) {
                 return ResponseEntity.noContent().build();

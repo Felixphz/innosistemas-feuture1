@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "\"Courses\"")
+@Table(name = "courses", schema="public")
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Courses_id_gen")

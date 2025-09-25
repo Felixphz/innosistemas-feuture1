@@ -1,5 +1,7 @@
 package com.udea.sistemas.innosistemas.models.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -26,6 +28,9 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rol_id", nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<UsersTeam> userTeams;
 
     public String getEmail() {
         return email;
@@ -59,4 +64,11 @@ public class User {
         this.role = role;
     }
 
+    public List<UsersTeam> getUserTeams() {
+        return userTeams;
+    }
+    
+    public void setUserTeams(List<UsersTeam> userTeams) {
+        this.userTeams = userTeams;
+    }
 }

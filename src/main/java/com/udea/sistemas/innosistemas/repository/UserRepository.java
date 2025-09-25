@@ -15,5 +15,11 @@ public interface UserRepository extends JpaRepository<User, String> {
     @EntityGraph(attributePaths = {"role"})
     List<User> findAll();
 
+    @EntityGraph(attributePaths = {
+        "userTeams",
+        "userTeams.team",
+        "userTeams.team.project"})
+    List<User> findAllBy();
+
 }
 

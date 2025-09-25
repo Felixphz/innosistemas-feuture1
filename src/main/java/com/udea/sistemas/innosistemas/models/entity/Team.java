@@ -23,7 +23,7 @@ public class Team {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "proyect_id", nullable = false)
-    private Proyect project;
+    private Project project;
     
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UsersTeam> members = new HashSet<>();
@@ -44,11 +44,11 @@ public class Team {
         this.nameTeam = nameTeam;
     }
 
-    public Proyect getProject() {
+    public Project getProject() {
         return project;
     }
 
-    public void setProject(Proyect project) {
+    public void setProject(Project project) {
         this.project = project;
     }
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.udea.sistemas.innosistemas.repository.UsersTeamRepository;
 import com.udea.sistemas.innosistemas.models.dto.TeamDto;
 import com.udea.sistemas.innosistemas.models.dto.UserDto;
-import com.udea.sistemas.innosistemas.models.entity.Proyect;
+import com.udea.sistemas.innosistemas.models.entity.Project;
 import com.udea.sistemas.innosistemas.models.entity.Team;
 import com.udea.sistemas.innosistemas.models.entity.User;
 import com.udea.sistemas.innosistemas.models.entity.UsersTeam;
@@ -37,7 +37,7 @@ public class TeamController {
     public ResponseEntity<?> createTeam(@RequestBody TeamDto teamDto){
         try{
             Team team= new Team();
-            Proyect proyect=new Proyect();
+            Project proyect=new Project();
             proyect.setId(teamDto.projectId());
             proyect.setNameProject(teamDto.projectName());
             team.setNameTeam(teamDto.nameTeam());
@@ -68,6 +68,5 @@ public class TeamController {
 
          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
-
     }
 }

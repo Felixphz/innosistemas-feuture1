@@ -12,19 +12,21 @@ import java.util.Objects;
 public class UsersCourseId implements Serializable {
     private static final long serialVersionUID = -3628777389934727406L;
     @NotNull
-    @Column(name = "user_id", nullable = false)
-    private Integer userId;
+    @Column(name = "email", nullable = false)
+    private String email;
+
 
     @NotNull
     @Column(name = "course_id", nullable = false)
     private Integer courseId;
 
-    public Integer getUserId() {
-        return userId;
+
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Integer getCourseId() {
@@ -40,13 +42,13 @@ public class UsersCourseId implements Serializable {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         UsersCourseId entity = (UsersCourseId) o;
-        return Objects.equals(this.userId, entity.userId) &&
+        return Objects.equals(this.email, entity.email) &&
                 Objects.equals(this.courseId, entity.courseId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, courseId);
+        return Objects.hash(email, courseId);
     }
 
 }

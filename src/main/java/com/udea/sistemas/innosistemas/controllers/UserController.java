@@ -1,5 +1,5 @@
 package com.udea.sistemas.innosistemas.controllers;
-import com.udea.sistemas.innosistemas.models.entity.User;
+import com.udea.sistemas.innosistemas.models.dto.UserDto;
 import com.udea.sistemas.innosistemas.repository.UserRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -20,26 +21,38 @@ public class UserController {
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
-    // GET /users -> devuelve todos los usuarios
     
-   @GetMapping("/getAllUsers")
+    @GetMapping("/getAllUsers")
     @Operation(summary = "Get all users", description = "Retrieves a list of all users in the system")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         try {
-            List<User> users = userRepository.findAll();
+            List<UserDto> users = userRepository.findAll().stream()
+                .map(user -> new UserDto(user.getEmail(), user.getNameUser()))
+                .collect(Collectors.toList());
             if (users.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
             return ResponseEntity.ok(users);
         } catch (Exception e) {
-            // Agregar logging más detallado
             e.printStackTrace();
-            System.out.println("Error específico: " + e.getMessage());
-            // Si hay una causa raíz, también la imprimimos
-            if (e.getCause() != null) {
-                System.out.println("Causa raíz: " + e.getCause().getMessage());
+            e.getMessage();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/getStudents")
+    @Operation(summary = "Get all students", description = "Retrieves a list of all users with student role")
+    public ResponseEntity<List<UserDto>> getAllStudents() {
+        try {
+            List<UserDto> students = userRepository.findByRole_NameRol("Estudiante").stream()
+                .map(user -> new UserDto(user.getEmail(), user.getNameUser()))
+                .collect(Collectors.toList());
+            if (students.isEmpty()) {
+                return ResponseEntity.noContent().build();
             }
+            return ResponseEntity.ok(students);
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }

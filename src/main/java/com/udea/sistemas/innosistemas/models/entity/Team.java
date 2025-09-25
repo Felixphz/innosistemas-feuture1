@@ -1,5 +1,8 @@
 package com.udea.sistemas.innosistemas.models.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -10,14 +13,9 @@ import lombok.Data;
 @Data
 public class Team {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Teams_id_gen")
-    @SequenceGenerator(name = "Teams_id_gen", sequenceName = "Teams_id_team_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_team", nullable = false)
-    private Integer id;
-
-    @NotNull
-    @Column(name = "\"Proyect_id\"", nullable = false)
-    private Integer proyectId;
+    private Integer idTeam;
 
     @Size(max = 255)
     @NotNull
@@ -25,8 +23,42 @@ public class Team {
     private String nameTeam;
 
     @NotNull
-    @Column(name = "num_integrantes", nullable = false)
-    private Integer numIntegrantes;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proyect_id", nullable = false)
+    private Project project;
+    
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UsersTeam> members = new HashSet<>();
 
+    public Integer getIdTeam() {
+        return idTeam;
+    }
 
+    public void setIdTeam(Integer idTeam) {
+        this.idTeam = idTeam;
+    }
+
+    public String getNameTeam() {
+        return nameTeam;
+    }
+
+    public void setNameTeam(String nameTeam) {
+        this.nameTeam = nameTeam;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Set<UsersTeam> getMembers() {
+        return members;
+    }
+
+    public void setMembers(Set<UsersTeam> members) {
+        this.members = members;
+    }
 }

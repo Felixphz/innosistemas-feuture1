@@ -23,4 +23,14 @@ public class TeamController {
 
     }
 
+
+     @PutMapping("update")
+    public ResponseEntity<?> updateTeam(@RequestBody TeamDto teamDto) {
+
+        if(teamService.updateTeam(teamDto)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+     }
+
 }

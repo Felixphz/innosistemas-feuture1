@@ -12,19 +12,19 @@ import java.util.Objects;
 public class UsersTeamId implements Serializable {
     private static final long serialVersionUID = -4114502446637274378L;
     @NotNull
-    @Column(name = "user_id", nullable = false)
-    private Integer userId;
+    @Column(name = "email", nullable = false)
+    private String email;
 
     @NotNull
     @Column(name = "team_id", nullable = false)
     private Integer teamId;
 
-    public Integer getUserId() {
-        return userId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Integer getTeamId() {
@@ -41,12 +41,12 @@ public class UsersTeamId implements Serializable {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         UsersTeamId entity = (UsersTeamId) o;
         return Objects.equals(this.teamId, entity.teamId) &&
-                Objects.equals(this.userId, entity.userId);
+                Objects.equals(this.email, entity.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(teamId, userId);
+        return Objects.hash(teamId, email);
     }
 
 }

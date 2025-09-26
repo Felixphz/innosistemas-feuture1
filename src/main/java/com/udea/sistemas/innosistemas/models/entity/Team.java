@@ -27,7 +27,9 @@ public class Team {
     @JoinColumn(name = "proyect_id", nullable = false)
     private Project project;
     
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, 
+    orphanRemoval = true, 
+    fetch = FetchType.LAZY)
     private Set<UsersTeam> members = new HashSet<>();
 
     public Integer getIdTeam() {

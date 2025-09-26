@@ -4,11 +4,15 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.udea.sistemas.innosistemas.repository.UsersTeamRepository;
+import com.udea.sistemas.innosistemas.service.TeamService;
 import com.udea.sistemas.innosistemas.models.dto.TeamDto;
 import com.udea.sistemas.innosistemas.models.dto.TeamShowDto;
 import com.udea.sistemas.innosistemas.models.dto.UserDto;
@@ -30,10 +34,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class TeamController {
     private final TeamRepository teamRepository;
     private final UsersTeamRepository usersTeamRepository;
+    private final TeamService teamService;
 
-    public TeamController(TeamRepository teamRepository, UsersTeamRepository usersTeamRepository) {
+    public TeamController(TeamRepository teamRepository, UsersTeamRepository usersTeamRepository, TeamService teamService) {
         this.teamRepository = teamRepository;
         this.usersTeamRepository = usersTeamRepository;
+        this.teamService = teamService;
     }
 
     @GetMapping("/getAllTeam")
@@ -103,15 +109,16 @@ public class TeamController {
 
         return ResponseEntity.notFound().build();
 
+    }
 
-     @PutMapping("update")
-    public ResponseEntity<?> updateTeam(@RequestBody TeamDto teamDto) {
-
-        if(teamService.updateTeam(teamDto)){
-            return ResponseEntity.ok().build();
+    @PutMapping("update")
+    public ResponseEntity<?> updateTeam(@RequestBody TeamShowDto teamDto) {
+        if(teamService.updateTeam(teamDto.idTeam(), teamDto)){
+                return ResponseEntity.ok().build();
+            }
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
-     }
+    
+    }
 
 
-}

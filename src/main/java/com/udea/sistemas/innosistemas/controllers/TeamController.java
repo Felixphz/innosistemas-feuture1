@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +17,10 @@ import com.udea.sistemas.innosistemas.models.dto.TeamDto;
 import com.udea.sistemas.innosistemas.models.dto.TeamShowDto;
 import com.udea.sistemas.innosistemas.models.dto.UserDto;
 import com.udea.sistemas.innosistemas.repository.TeamRepository;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-
-
+@CrossOrigin(origins = "http://localhost:3004")
 @RestController
 @RequestMapping("/api/team")
 @Tag(name = "Teams", description = "Endpoints for managing Teams")
@@ -69,23 +68,20 @@ public class TeamController {
         }
     }
 
-    @DeleteMapping("/deleteTeam/{id}")
-    @Operation(summary = "Delete a team", description = "Deletes a team from the system")
+    @DeleteMapping("deleteTeam/{id}")
     public ResponseEntity<?> deleteTeam(@PathVariable int id) {
-        try{ if(teamService.deleteTeam(id)){
-                return ResponseEntity.ok().body("Team deleted successfully");
-            } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Team not found");
-        }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+            if(teamService.deleteTeam(id)){
+                return ResponseEntity.ok().build();
+            }
+
+        return ResponseEntity.notFound().build();
+
     }
 
     @PutMapping("updateTeam")
     public ResponseEntity<?> updateTeam(@RequestBody TeamShowDto teamDto) {
         if(teamService.updateTeam(teamDto.idTeam(), teamDto)){
-                return ResponseEntity.ok().body("Team updated successfully");
+                return ResponseEntity.ok().build();
             }
             return ResponseEntity.notFound().build();
         }

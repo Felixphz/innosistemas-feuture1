@@ -26,8 +26,8 @@ public class TeamService{
     public boolean createTeam(TeamDto teamDto) {
         try {
             if (!teamDto.nameTeam().isEmpty() && teamDto.projectId() != null) {
-                if (teamDto.students() == null || teamDto.students().size() <= 1) {
-                    System.err.println("Error: Un equipo debe tener más de un usuario");
+                if (teamDto.students() == null || teamDto.students().size() <= 1 || teamDto.students().size() > 3) {
+                    System.err.println("Error: Un equipo debe tener entre 2 y 3 usuarios");
                     return false;
                 }
                 Team team= new Team();

@@ -1,5 +1,7 @@
 package com.udea.sistemas.innosistemas.models.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -7,8 +9,10 @@ import jakarta.validation.constraints.Size;
 @Entity
 @Table(name = "users", schema="public")
 public class User {
-    @EmbeddedId
-    private UserId id;
+    @Id
+    @NotNull
+    @Column(name = "email", nullable = false)
+    private String email;
 
     @Size(max = 255)
     @NotNull
@@ -21,15 +25,19 @@ public class User {
     private String password;
 
     @NotNull
-    @Column(name = "rol_id", nullable = false)
-    private Integer rolId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rol_id", nullable = false)
+    private Role role;
 
-    public UserId getId() {
-        return id;
+    @OneToMany(mappedBy = "user")
+    private List<UsersTeam> userTeams;
+
+    public String getEmail() {
+        return email;
     }
 
-    public void setId(UserId id) {
-        this.id = id;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getNameUser() {
@@ -48,12 +56,19 @@ public class User {
         this.password = password;
     }
 
-    public Integer getRolId() {
-        return rolId;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRolId(Integer rolId) {
-        this.rolId = rolId;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
+    public List<UsersTeam> getUserTeams() {
+        return userTeams;
+    }
+    
+    public void setUserTeams(List<UsersTeam> userTeams) {
+        this.userTeams = userTeams;
+    }
 }

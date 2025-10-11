@@ -2,13 +2,15 @@ package com.udea.sistemas.innosistemas.models.entity;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "usersTeam", schema="public")
+@Table(name = "users_teams", schema="public")
 public class UsersTeam {
-    @SequenceGenerator(name = "UsersTeams_id_gen", sequenceName = "Teams_id_team_seq", allocationSize = 1)
     @EmbeddedId
     private UsersTeamId id;
 
@@ -19,6 +21,30 @@ public class UsersTeam {
     public void setId(UsersTeamId id) {
         this.id = id;
     }
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("email") 
+    @JoinColumn(name = "email")
+    private User user;
 
-    //TODO [Reverse Engineering] generate columns from DB
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("teamId") 
+    @JoinColumn(name = "id_team")
+    private Team team;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 }

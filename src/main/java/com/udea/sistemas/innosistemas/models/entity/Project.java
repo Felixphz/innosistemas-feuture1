@@ -5,12 +5,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "proyects", schema="public")
-public class Proyect {
+@Table(name = "projects", schema="public")
+public class Project {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Proyects_id_gen")
-    @SequenceGenerator(name = "Proyects_id_gen", sequenceName = "Proyects_id_proyect_seq", allocationSize = 1)
-    @Column(name = "id_proyect", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Projects_id_gen")
+    @SequenceGenerator(name = "Projects_id_gen", sequenceName = "Projects_id_project_seq", allocationSize = 1)
+    @Column(name = "id_project", nullable = false)
     private Integer id;
 
     @NotNull

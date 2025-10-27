@@ -2,6 +2,8 @@ package com.udea.sistemas.innosistemas.models.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -27,6 +29,7 @@ public class User {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rol_id", nullable = false)
+    @JsonManagedReference
     private Role role;
 
     @OneToMany(mappedBy = "user")

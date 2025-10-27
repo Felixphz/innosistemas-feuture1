@@ -20,5 +20,4 @@ public class RolesPermit {
         this.id = id;
     }
 
-    //TODO [Reverse Engineering] generate columns from DB
 }

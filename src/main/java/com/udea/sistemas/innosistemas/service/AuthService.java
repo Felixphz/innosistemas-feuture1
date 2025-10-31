@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 
 import com.udea.sistemas.innosistemas.models.dto.LoginDto;
 import com.udea.sistemas.innosistemas.models.dto.TokenResponseDto;
-import com.udea.sistemas.innosistemas.models.dto.UserInfoDto;
 import com.udea.sistemas.innosistemas.models.entity.RefreshToken;
 import com.udea.sistemas.innosistemas.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,26 +32,18 @@ public class AuthService {
 
 
     public TokenResponseDto GenerateWebToken(LoginDto authDto) {
-         var user = userRepository.findByEmail(authDto.email());
+        var user = userRepository.findByEmail(authDto.email());
         String accessToken = jwtService.generateAccessToken(user);
             
-            // Crear y almacenar refresh token en BD
-            RefreshToken refreshTokenEntity = refreshTokenService.createRefreshToken(user.getEmail());
-            
-            // Crear respuesta
-            UserInfoDto userInfo = new UserInfoDto(
-                user.getEmail(),
-                user.getNameUser(),
-                user.getRole().getNameRol()
-            );
-            
-            return new TokenResponseDto(
-                accessToken,
-                refreshTokenEntity.getToken(),
-                "Bearer",
-                900L, // 15 minutos
-                userInfo
-            );
+        // Crear y almacenar refresh token en BD
+        RefreshToken refreshTokenEntity = refreshTokenService.createRefreshToken(user.getEmail());
+        
+        return new TokenResponseDto(
+            accessToken,
+            refreshTokenEntity.getToken(),
+            "Bearer",
+            900L
+        );
     }
 
     public TokenResponseDto refreshAccessToken(String refreshToken) {
@@ -64,18 +55,12 @@ public class AuthService {
                 .map(userRepository::findByEmail)
                 .map(user -> {
                     String accessToken = jwtService.generateAccessToken(user);
-                    UserInfoDto userInfo = new UserInfoDto(
-                        user.getEmail(),
-                        user.getNameUser(),
-                        user.getRole().getNameRol()
-                    );
-                    
+            
                     return new TokenResponseDto(
                         accessToken,
                         refreshToken, // Mantener el mismo refresh token
                         "Bearer",
-                        900L,
-                        userInfo
+                        900L
                     );
                 })
                 .orElseThrow(() -> new RuntimeException("Refresh token not found or expired"));

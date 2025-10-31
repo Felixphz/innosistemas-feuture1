@@ -1,5 +1,8 @@
 package com.udea.sistemas.innosistemas.models.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -22,6 +25,11 @@ public class Permission {
     @NotNull
     @Column(name = "description", nullable = false)
     private String description;
+
+    @OneToMany(mappedBy = "permissions", cascade = CascadeType.ALL, 
+    orphanRemoval = true, 
+    fetch = FetchType.LAZY)
+    private Set<RolesPermission> permissions = new HashSet<>();
 
     public Integer getId() {
         return id;

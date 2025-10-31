@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class RolesPermitId implements Serializable {
+public class RolesPermissionId implements Serializable {
     private static final long serialVersionUID = 7350903811879232292L;
     @NotNull
     @Column(name = "id_role", nullable = false)
@@ -39,7 +39,7 @@ public class RolesPermitId implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        RolesPermitId entity = (RolesPermitId) o;
+        RolesPermissionId entity = (RolesPermissionId) o;
         return Objects.equals(this.idPermit, entity.idPermit) &&
                 Objects.equals(this.idRole, entity.idRole);
     }

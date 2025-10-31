@@ -5,9 +5,9 @@ import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Service;
 import com.udea.sistemas.innosistemas.config.JwtConfig;
 import com.udea.sistemas.innosistemas.models.entity.User;
-
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -21,12 +21,17 @@ public class JwtService {
     }
 
     public String generateAccessToken(User user) {
+
+        var permissions = user.getRole().getRolesPermission()
+                .stream()
+                .map(rp -> rp.getPermissions().getNamePermission())
+                .toList();
+        
         Map<String, Object> claims = new HashMap<>();
-        claims.put("email", user.getEmail());
         claims.put("name", user.getNameUser());
         claims.put("role", user.getRole().getNameRol());
         claims.put("roleId", user.getRole().getId());
-        claims.put("type", "access");
+        claims.put("permissions", permissions);
         
         return createToken(claims, user.getEmail(), jwtConfig.getAccessTokenExpiration());
     }
@@ -63,6 +68,19 @@ public class JwtService {
 
     public String extractTokenType(String token) {
         return extractClaim(token, claims -> claims.get("type", String.class));
+    }
+
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
+    }
+
+    public String extractName(String token) {
+        return extractClaim(token, claims -> claims.get("name", String.class));
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> extractPermissions(String token) {
+        return extractClaim(token, claims -> (List<String>) claims.get("permissions"));
     }
 
     public Date extractExpiration(String token) {

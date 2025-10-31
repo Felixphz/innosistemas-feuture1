@@ -11,7 +11,12 @@ public interface UserRepository extends JpaRepository<User, String> {
     @EntityGraph(attributePaths = {"role"})
     List<User> findByRole_NameRol(String NameRol);
 
-    @EntityGraph(attributePaths = {"email"})
+    // EntityGraph que carga User con Role y todos sus permisos
+    @EntityGraph(attributePaths = {
+        "role", 
+        "role.rolesPermission", 
+        "role.rolesPermission.permissions"
+    })
     User findByEmail(String email);
 
     @Override
@@ -21,7 +26,8 @@ public interface UserRepository extends JpaRepository<User, String> {
     @EntityGraph(attributePaths = {
         "userTeams",
         "userTeams.team",
-        "userTeams.team.project"})
+        "userTeams.team.project"
+    })
     List<User> findAllBy();
 
 }

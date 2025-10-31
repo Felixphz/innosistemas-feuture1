@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,12 +31,14 @@ public class ProyectController {
     }
 
     @GetMapping("/{projectId}/users/single-team")
+    
     @Operation(summary =  "Get all Users in a Single Team", description = "Retrieves a list of all users in a single team for a specific project")
     public ResponseEntity<List<User>> getUsersInOneTeam(@PathVariable Integer projectId) {
         return ResponseEntity.ok(proyectService.getUsersInOneTeamByProject(projectId));
     }
 
     @GetMapping("/getAllProjects")
+    @PreAuthorize("hasAuthority('read_project')")
     @Operation(summary =  "Get all Projects", description = "Retrieves a list of all projects in the system")
     public ResponseEntity<List<ProjectDto>> getAllProjects() {
         try {

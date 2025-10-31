@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class UserController {
     }
     
    @GetMapping("/getAllUsers")
+    @PreAuthorize("hasAuthority('read_users')")
     @Operation(summary = "Get all users", description = "Retrieves a list of all users in the system")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         try {
@@ -47,6 +49,7 @@ public class UserController {
     }
 
     @GetMapping("/getStudents")
+    @PreAuthorize("hasAuthority('read_students')")
     @Operation(summary = "Get all students", description = "Retrieves a list of all users with student role")
     public ResponseEntity<List<UserDto>> getAllStudents() {
         try {
@@ -72,6 +75,21 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
             }
 
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/deleteUser/{email}")
+    @PreAuthorize("hasAuthority('delete_user')")
+    @Operation(summary = "Delete a user", description = "Deletes a user from the system by email")
+    public ResponseEntity<String> deleteUser(@PathVariable String email) {
+        try {
+            if(userService.deleteUser(email)) {
+                return ResponseEntity.ok("User deleted successfully");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }

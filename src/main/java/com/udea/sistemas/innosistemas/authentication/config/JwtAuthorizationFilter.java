@@ -1,4 +1,4 @@
-package com.udea.sistemas.innosistemas.config;
+package com.udea.sistemas.innosistemas.authentication.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

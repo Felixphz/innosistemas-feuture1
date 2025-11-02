@@ -1,4 +1,4 @@
-package com.udea.sistemas.innosistemas.config;
+package com.udea.sistemas.innosistemas.authentication.config;
 
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;

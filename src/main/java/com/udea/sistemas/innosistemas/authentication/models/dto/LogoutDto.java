@@ -1,4 +1,4 @@
-package com.udea.sistemas.innosistemas.models.dto;
+package com.udea.sistemas.innosistemas.authentication.models.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

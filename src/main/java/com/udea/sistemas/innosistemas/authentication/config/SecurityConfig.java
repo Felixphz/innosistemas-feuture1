@@ -1,4 +1,4 @@
-package com.udea.sistemas.innosistemas.config;
+package com.udea.sistemas.innosistemas.authentication.config;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.context.annotation.Bean;

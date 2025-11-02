@@ -1,8 +1,9 @@
-package com.udea.sistemas.innosistemas.repository;
+package com.udea.sistemas.innosistemas.authentication.repository;
 
-import com.udea.sistemas.innosistemas.models.entity.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.udea.sistemas.innosistemas.authentication.models.entity.RefreshToken;
 
 import java.time.LocalDateTime;
 import java.util.List;

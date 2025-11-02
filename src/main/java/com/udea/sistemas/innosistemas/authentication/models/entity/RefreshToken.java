@@ -1,4 +1,4 @@
-package com.udea.sistemas.innosistemas.models.entity;
+package com.udea.sistemas.innosistemas.authentication.models.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

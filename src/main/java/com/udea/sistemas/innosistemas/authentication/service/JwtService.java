@@ -1,9 +1,10 @@
-package com.udea.sistemas.innosistemas.service;
+package com.udea.sistemas.innosistemas.authentication.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Service;
-import com.udea.sistemas.innosistemas.config.JwtConfig;
+
+import com.udea.sistemas.innosistemas.authentication.config.JwtConfig;
 import com.udea.sistemas.innosistemas.models.entity.User;
 import java.util.Date;
 import java.util.HashMap;

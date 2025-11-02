@@ -1,4 +1,4 @@
-package com.udea.sistemas.innosistemas.controllers;
+package com.udea.sistemas.innosistemas.authentication.controllers;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -6,11 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.udea.sistemas.innosistemas.models.dto.LoginDto;
-import com.udea.sistemas.innosistemas.models.dto.LogoutDto;
-import com.udea.sistemas.innosistemas.models.dto.RefreshTokenRequestDto;
-import com.udea.sistemas.innosistemas.models.dto.TokenResponseDto;
-import com.udea.sistemas.innosistemas.service.AuthService;
+import com.udea.sistemas.innosistemas.authentication.models.dto.LoginDto;
+import com.udea.sistemas.innosistemas.authentication.models.dto.LogoutDto;
+import com.udea.sistemas.innosistemas.authentication.models.dto.RefreshTokenRequestDto;
+import com.udea.sistemas.innosistemas.authentication.models.dto.TokenResponseDto;
+import com.udea.sistemas.innosistemas.authentication.service.AuthService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

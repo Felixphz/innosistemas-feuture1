@@ -1,10 +1,10 @@
-package com.udea.sistemas.innosistemas.service;
+package com.udea.sistemas.innosistemas.authentication.service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.udea.sistemas.innosistemas.models.dto.LoginDto;
-import com.udea.sistemas.innosistemas.models.dto.TokenResponseDto;
-import com.udea.sistemas.innosistemas.models.entity.RefreshToken;
+import com.udea.sistemas.innosistemas.authentication.models.dto.LoginDto;
+import com.udea.sistemas.innosistemas.authentication.models.dto.TokenResponseDto;
+import com.udea.sistemas.innosistemas.authentication.models.entity.RefreshToken;
 import com.udea.sistemas.innosistemas.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 

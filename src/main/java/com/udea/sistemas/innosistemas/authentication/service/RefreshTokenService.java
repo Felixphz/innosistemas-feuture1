@@ -1,8 +1,9 @@
-package com.udea.sistemas.innosistemas.service;
+package com.udea.sistemas.innosistemas.authentication.service;
 
-import com.udea.sistemas.innosistemas.config.JwtConfig;
-import com.udea.sistemas.innosistemas.models.entity.RefreshToken;
-import com.udea.sistemas.innosistemas.repository.RefreshTokenRepository;
+import com.udea.sistemas.innosistemas.authentication.config.JwtConfig;
+import com.udea.sistemas.innosistemas.authentication.models.entity.RefreshToken;
+import com.udea.sistemas.innosistemas.authentication.repository.RefreshTokenRepository;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,4 +1,4 @@
-package com.udea.sistemas.innosistemas.config;
+package com.udea.sistemas.innosistemas.authentication.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

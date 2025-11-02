@@ -1,4 +1,4 @@
-package com.udea.sistemas.innosistemas.models.dto;
+package com.udea.sistemas.innosistemas.authentication.models.dto;
 
 public record LoginDto(
     String email,

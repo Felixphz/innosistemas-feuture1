@@ -10,13 +10,13 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 public class JwtConfig {
     
-    @Value("${jwt.secretT:mySecretKeyForDevelopmentThatIsAtLeast32CharactersLong123456789}")
+    @Value("${jwt.secretT}")
     private String secretKey;
 
-    @Value("${jwt.expiration:900}")
+    @Value("${jwt.expiration}")
     private Long accessTokenExpiration;
 
-    @Value("${jwt.refresh.expiration:3600}")
+    @Value("${jwt.refresh.expiration}")
     private Long refreshTokenExpiration;
 
     public SecretKey getSigningKey() {

@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class CourseController {
     }
 
     @Operation(summary = "Obtener todos los cursos")
+    @PreAuthorize("hasAuthority('read_courses')")
     @ApiResponse(responseCode = "200", description = "Lista obtenida correctamente")
     @GetMapping
     public ResponseEntity<List<CourseDto>> getAllCourses() {
@@ -31,6 +33,7 @@ public class CourseController {
     }
 
     @Operation(summary = "Obtener curso por ID")
+    @PreAuthorize("hasAuthority('read_courses')")
     @ApiResponse(responseCode = "200", description = "Curso encontrado")
     @GetMapping("/{id}")
     public ResponseEntity<CourseDto> getCourseById(@PathVariable int id) {
@@ -38,6 +41,7 @@ public class CourseController {
     }
 
     @Operation(summary = "Crear un nuevo curso")
+    @PreAuthorize("hasAuthority('create_courses')")
     @ApiResponse(responseCode = "201", description = "Curso creado exitosamente")
     @PostMapping
     public ResponseEntity<CourseDto> createCourse(@RequestBody String name) {
@@ -47,6 +51,7 @@ public class CourseController {
     }
 
     @Operation(summary = "Actualizar un curso existente")
+    @PreAuthorize("hasAuthority('update_courses')")
     @ApiResponse(responseCode = "200", description = "Curso actualizado exitosamente")
     @PutMapping("/update")
     public ResponseEntity<CourseDto> updateCourse( @RequestBody CourseDto dto) {
@@ -55,6 +60,7 @@ public class CourseController {
     }
 
     @Operation(summary = "Eliminar un curso (borrado lógico)")
+    @PreAuthorize("hasAuthority('delete_courses')")
     @ApiResponse(responseCode = "204", description = "Curso eliminado exitosamente")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCourse(@PathVariable int id) {

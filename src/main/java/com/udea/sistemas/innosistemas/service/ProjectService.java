@@ -40,7 +40,13 @@ public class ProjectService {
         Project project = new Project();
 
         try {
+            System.out.println("Attempting to create project with:");
+            System.out.println("CourseId: " + courseId);
+            System.out.println("NameProject: " + nameProject);
+            System.out.println("Descriptions: " + descriptions);
+
             List<Project> projectsInCourse = projectRepository.findByCourseId(courseId);
+            System.out.println("Found " + projectsInCourse.size() + " projects in course " + courseId);
 
             for (Project projectInCourse : projectsInCourse) {
                 if (projectInCourse.getNameProject().equals(nameProject)) {
@@ -55,11 +61,12 @@ public class ProjectService {
             project.setIs_deleted(false);
 
             project = projectRepository.save(project);
+            System.out.println("Project created successfully with ID: " + project.getId());
 
             return true;
         } catch (Exception e) {
-
-            System.err.println("Error al crear el equipo: " + e.getMessage());
+            System.err.println("Error al crear el proyecto: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }

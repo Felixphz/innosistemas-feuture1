@@ -1,4 +1,5 @@
 package com.udea.sistemas.innosistemas.authentication.controllers;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -81,6 +82,16 @@ public class AuthController {
     @GetMapping("/me")
     @Operation(summary = "Obtener información del usuario actual")
     public ResponseEntity<Map<String, Object>> getUserInfo(Authentication authentication) {
-        return ResponseEntity.ok(authService.getUserInfo(authentication.getName()));
+        Map<String, Object> userInfo = authService.getUserInfo(authentication.getName());
+        
+        // Agregar información de permisos para debugging
+        if (authentication != null && authentication.getAuthorities() != null) {
+            List<String> permissions = authentication.getAuthorities().stream()
+                .map(auth -> auth.getAuthority())
+                .toList();
+            userInfo.put("permissions", permissions);
+        }
+        
+        return ResponseEntity.ok(userInfo);
     }
 }

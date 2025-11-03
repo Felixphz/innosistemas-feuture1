@@ -1,4 +1,5 @@
 package com.udea.sistemas.innosistemas.controllers;
+import com.udea.sistemas.innosistemas.models.dto.ApiResponseDto;
 import com.udea.sistemas.innosistemas.models.dto.CreateProjectDto;
 import com.udea.sistemas.innosistemas.models.dto.TeamDto;
 import com.udea.sistemas.innosistemas.models.dto.modProjectDto;
@@ -58,45 +59,57 @@ public class ProyectController {
         }
     }
 
-    @PostMapping("/createProject")
+    @PostMapping
+    @PreAuthorize("hasAuthority('create_project')")
     @Operation(summary = "Create a new project", description = "Creates a new project in the system")
-    public ResponseEntity<?> createProject(@RequestBody CreateProjectDto projectDto){
-        try{//Integer courseId, String nameProject, String descriptions
+    public ResponseEntity<ApiResponseDto> createProject(@RequestBody CreateProjectDto projectDto){
+        try{
             if (proyectService.createProject(projectDto.courseId(), projectDto.nameProject(), projectDto.descriptions())) {
-                return ResponseEntity.status(HttpStatus.OK).body("Project was create successfully");
+                return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(new ApiResponseDto("Project was created successfully", true));
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Project data");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponseDto("Invalid Project data", false));
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiResponseDto("Error creating project: " + e.getMessage(), false));
         }
     }
 
     @PutMapping("/updateProject")
+    @PreAuthorize("hasAuthority('update_project')")
     @Operation(summary = "update a project", description = "Creates the data of project in the system")
-    public ResponseEntity<?> updateProject(@RequestBody modProjectDto projectDto){
-        try{//Integer projectId, Integer courseId, String nameProject, String descriptions
+    public ResponseEntity<ApiResponseDto> updateProject(@RequestBody modProjectDto projectDto){
+        try{
             if (proyectService.updateProject(projectDto.projectId(), projectDto.courseId(), projectDto.nameProject(), projectDto.descriptions())) {
-                return ResponseEntity.status(HttpStatus.OK).body("Project was updated successfully");
+                return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponseDto("Project was updated successfully", true));
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Project data");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponseDto("Invalid Project data", false));
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiResponseDto("Error updating project: " + e.getMessage(), false));
         }
     }
 
     @DeleteMapping("/deleteProject/{proyectID}")
+    @PreAuthorize("hasAuthority('delete_project')")
     @Operation(summary = "delete a project", description = "delete a project in the system")
-    public ResponseEntity<?> deleteProject(@RequestParam Integer projectID){
+    public ResponseEntity<ApiResponseDto> deleteProject(@RequestParam Integer projectID){
         try{
             if (proyectService.deleteProject(projectID)) {
-                return ResponseEntity.status(HttpStatus.OK).body("Project was deleted successfully");
+                return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponseDto("Project was deleted successfully", true));
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid Project data");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponseDto("Invalid Project data", false));
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiResponseDto("Error deleting project: " + e.getMessage(), false));
         }
     }
 
@@ -115,6 +128,7 @@ public class ProyectController {
     }
 
     @GetMapping("/getProject/{id}")
+    
     @Operation(summary =  "Get a Project", description = "Retrieves a project in the system")
     public ResponseEntity<Project> getProject(@RequestParam Integer id) {
         try {

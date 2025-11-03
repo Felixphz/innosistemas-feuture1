@@ -1,6 +1,7 @@
 package com.udea.sistemas.innosistemas.controllers;
 
 import com.udea.sistemas.innosistemas.models.dto.CourseDto;
+import com.udea.sistemas.innosistemas.models.dto.CreateCourseDto;
 import com.udea.sistemas.innosistemas.models.entity.Course;
 import com.udea.sistemas.innosistemas.service.CourseService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,9 +13,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/courses")
+@CrossOrigin(origins = "http://localhost:3004")
 @Tag(name = "Courses", description = "API para la gestión de cursos")
 public class CourseController {
 
@@ -41,13 +44,23 @@ public class CourseController {
     }
 
     @Operation(summary = "Crear un nuevo curso")
-    @PreAuthorize("hasAuthority('create_courses')")
+    @PreAuthorize("hasAuthority('create_course')")
     @ApiResponse(responseCode = "201", description = "Curso creado exitosamente")
     @PostMapping
-    public ResponseEntity<CourseDto> createCourse(@RequestBody String name) {
-        Course created = courseService.createCourse(name);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new CourseDto(created.getId(), created.getNameCourse()));
+    public ResponseEntity<?> createCourse(@RequestBody CreateCourseDto createCourseDto) {
+        try {
+            if (createCourseDto.name() == null || createCourseDto.name().trim().isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "El nombre del curso es requerido"));
+            }
+            
+            Course created = courseService.createCourse(createCourseDto.name().trim());
+            CourseDto response = new CourseDto(created.getId(), created.getNameCourse());
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("message", "Error al crear el curso: " + e.getMessage()));
+        }
     }
 
     @Operation(summary = "Actualizar un curso existente")

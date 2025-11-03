@@ -1,6 +1,8 @@
 package com.udea.sistemas.innosistemas.authentication.service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Map;
+import java.util.HashMap;
 
 import com.udea.sistemas.innosistemas.authentication.models.dto.LoginDto;
 import com.udea.sistemas.innosistemas.authentication.models.dto.TokenResponseDto;
@@ -82,5 +84,19 @@ public class AuthService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public Map<String, Object> getUserInfo(String email) {
+        var user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+        
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("email", user.getEmail());
+        userInfo.put("name", user.getNameUser());
+        userInfo.put("role", user.getRole().getNameRol());
+        
+        return userInfo;
     }
 }

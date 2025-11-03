@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -67,16 +68,18 @@ public class UserController {
 
     @PostMapping("/createUser")
     @Operation(summary = "Create a new user", description = "Creates a new user in the system")
-    public ResponseEntity<String> createUser(@RequestBody CreateUserDto createUserDto) {
+    public ResponseEntity<?> createUser(@RequestBody CreateUserDto createUserDto) {
         try {
             if(userService.createUser(createUserDto)) {
-                return ResponseEntity.status(HttpStatus.OK).body("User created successfully");
+                return ResponseEntity.status(HttpStatus.OK)
+                    .body(Map.of("message", "User created successfully", "success", true));
             } else {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists");
+                return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("message", "User already exists", "success", false));
             }
-
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("message", "Internal server error", "success", false));
         }
     }
 

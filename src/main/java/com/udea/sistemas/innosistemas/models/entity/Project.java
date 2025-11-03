@@ -27,6 +27,10 @@ public class Project {
     @Column(name = "descriptions", nullable = false)
     private String descriptions;
 
+    @NotNull
+    @Column(name = "is_deleted", nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
+    private Boolean is_deleted;
+
     public Integer getId() {
         return id;
     }
@@ -59,4 +63,7 @@ public class Project {
         this.descriptions = descriptions;
     }
 
+    public Boolean getIs_deleted() { return is_deleted; }
+
+    public void setIs_deleted(Boolean is_deleted) { this.is_deleted = is_deleted; }
 }

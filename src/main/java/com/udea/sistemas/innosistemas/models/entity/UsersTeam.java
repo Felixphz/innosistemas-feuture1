@@ -14,14 +14,6 @@ public class UsersTeam {
     @EmbeddedId
     private UsersTeamId id;
 
-    public UsersTeamId getId() {
-        return id;
-    }
-
-    public void setId(UsersTeamId id) {
-        this.id = id;
-    }
-    
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("email") 
     @JoinColumn(name = "email")
@@ -32,6 +24,13 @@ public class UsersTeam {
     @JoinColumn(name = "id_team")
     private Team team;
 
+    public UsersTeamId getId() {
+        return id;
+    }
+
+    public void setId(UsersTeamId id) {
+        this.id = id;
+    }
     public User getUser() {
         return user;
     }

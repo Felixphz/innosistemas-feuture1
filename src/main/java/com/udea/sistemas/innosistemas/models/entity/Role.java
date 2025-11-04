@@ -1,5 +1,6 @@
 package com.udea.sistemas.innosistemas.models.entity;
 
+import java.util.List;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -18,6 +19,9 @@ public class Role {
     @Column(name = "name_rol", nullable = false)
     private String nameRol;
 
+    @OneToMany(mappedBy = "role")
+    private List<RolesPermission> rolesPermission;
+
     public Integer getId() {
         return id;
     }
@@ -34,4 +38,11 @@ public class Role {
         this.nameRol = nameRol;
     }
 
+    public List<RolesPermission> getRolesPermission() {
+        return rolesPermission;
+    }
+
+    public void setRolesPermission(List<RolesPermission> rolesPermission) {
+        this.rolesPermission = rolesPermission;
+    }
 }

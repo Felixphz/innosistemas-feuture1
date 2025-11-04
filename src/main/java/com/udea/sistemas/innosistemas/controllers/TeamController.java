@@ -3,6 +3,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,6 +35,8 @@ public class TeamController {
     }
 
     @GetMapping("/getAllTeam")
+    
+    @PreAuthorize("hasAuthority('read_team')")
     @Operation(summary = "Get all teams", description = "Retrieves a list of all teams in the system")
     public ResponseEntity<List<TeamShowDto>> getAllTeams() {
         try {
@@ -55,6 +58,7 @@ public class TeamController {
     }
 
     @PostMapping("/createTeam")
+     @PreAuthorize("hasAuthority('create_team')")
     @Operation(summary = "Create a new team", description = "Creates a new team in the system")
     public ResponseEntity<?> createTeam(@RequestBody TeamDto teamDto){
         try{
@@ -69,6 +73,7 @@ public class TeamController {
     }
 
     @DeleteMapping("deleteTeam/{id}")
+    @PreAuthorize("hasAuthority('delete_team')")
     public ResponseEntity<?> deleteTeam(@PathVariable int id) {
             if(teamService.deleteTeam(id)){
                 return ResponseEntity.ok().build();
@@ -79,6 +84,7 @@ public class TeamController {
     }
 
     @PutMapping("updateTeam")
+    @PreAuthorize("hasAuthority('update_team')")
     public ResponseEntity<?> updateTeam(@RequestBody TeamShowDto teamDto) {
         if(teamService.updateTeam(teamDto.idTeam(), teamDto)){
                 return ResponseEntity.ok().build();

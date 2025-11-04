@@ -1,5 +1,6 @@
 package com.udea.sistemas.innosistemas.controllers;
 import com.udea.sistemas.innosistemas.models.dto.UserDto;
+import com.udea.sistemas.innosistemas.models.dto.UserWithRoleDto;
 import com.udea.sistemas.innosistemas.models.dto.CreateUserDto;
 import com.udea.sistemas.innosistemas.repository.UserRepository;
 import com.udea.sistemas.innosistemas.service.UserService;
@@ -32,12 +33,12 @@ public class UserController {
     }
     
    @GetMapping("/getAllUsers")
-    @PreAuthorize("hasAuthority('read_users')")
+    @PreAuthorize("hasAuthority('read_user')")
     @Operation(summary = "Get all users", description = "Retrieves a list of all users in the system")
-    public ResponseEntity<List<UserDto>> getAllUsers() {
+    public ResponseEntity<List<UserWithRoleDto>> getAllUsers() {
         try {
-            List<UserDto> userDtos = userRepository.findAll().stream()
-                    .map(user -> new UserDto(user.getEmail(), user.getNameUser()))
+            List<UserWithRoleDto> userDtos = userRepository.findAll().stream()
+                    .map(user -> new UserWithRoleDto(user.getEmail(), user.getNameUser(), user.getRole().getNameRol()))
                     .toList();
             if (userDtos.isEmpty()) {
                 return ResponseEntity.noContent().build();

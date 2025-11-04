@@ -36,7 +36,7 @@ public class TeamController {
 
     @GetMapping("/getAllTeam")
     
-    @PreAuthorize("hasAuthority('read_teams')")
+    @PreAuthorize("hasAuthority('read_team')")
     @Operation(summary = "Get all teams", description = "Retrieves a list of all teams in the system")
     public ResponseEntity<List<TeamShowDto>> getAllTeams() {
         try {

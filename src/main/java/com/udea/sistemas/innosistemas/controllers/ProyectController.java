@@ -114,7 +114,7 @@ public class ProyectController {
 
     @PatchMapping("/invalidateProject/{projectID}")
     @Operation(summary = "invalidate a project", description = "made a logic delete of the project in the system")
-    public ResponseEntity<?> invalidateProject(@PathVariable Integer projectID){
+    public ResponseEntity<String> invalidateProject(@PathVariable Integer projectID){
         try{
             if (proyectService.invalidateProject(projectID)) {
                 return ResponseEntity.status(HttpStatus.OK).body("Project was invalidated successfully");

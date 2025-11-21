@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -81,9 +82,9 @@ public class AuthController {
         Map<String, Object> userInfo = authService.getUserInfo(authentication.getName());
         
         // Agregar información de permisos para debugging
-        if (authentication != null && authentication.getAuthorities() != null) {
+        if (authentication.getAuthorities() != null) {
             List<String> permissions = authentication.getAuthorities().stream()
-                .map(auth -> auth.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .toList();
             userInfo.put("permissions", permissions);
         }

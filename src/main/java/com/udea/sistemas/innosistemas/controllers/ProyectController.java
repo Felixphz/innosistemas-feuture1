@@ -1,7 +1,6 @@
 package com.udea.sistemas.innosistemas.controllers;
 import com.udea.sistemas.innosistemas.models.dto.ApiResponseDto;
 import com.udea.sistemas.innosistemas.models.dto.CreateProjectDto;
-import com.udea.sistemas.innosistemas.models.dto.TeamDto;
 import com.udea.sistemas.innosistemas.models.dto.modProjectDto;
 import com.udea.sistemas.innosistemas.models.entity.Project;
 import org.springframework.web.bind.annotation.*;
@@ -95,10 +94,10 @@ public class ProyectController {
         }
     }
 
-    @DeleteMapping("/deleteProject/{proyectID}")
+    @DeleteMapping("/deleteProject/{projectID}")
     @PreAuthorize("hasAuthority('delete_project')")
     @Operation(summary = "delete a project", description = "delete a project in the system")
-    public ResponseEntity<ApiResponseDto> deleteProject(@RequestParam Integer projectID){
+    public ResponseEntity<ApiResponseDto> deleteProject(@PathVariable int projectID){
         try{
             if (proyectService.deleteProject(projectID)) {
                 return ResponseEntity.status(HttpStatus.OK)
@@ -113,9 +112,9 @@ public class ProyectController {
         }
     }
 
-    @PatchMapping("/invalidateProject/{proyectID}")
+    @PatchMapping("/invalidateProject/{projectID}")
     @Operation(summary = "invalidate a project", description = "made a logic delete of the project in the system")
-    public ResponseEntity<?> invalidateProject(@RequestParam Integer projectID){
+    public ResponseEntity<?> invalidateProject(@PathVariable Integer projectID){
         try{
             if (proyectService.invalidateProject(projectID)) {
                 return ResponseEntity.status(HttpStatus.OK).body("Project was invalidated successfully");
@@ -128,9 +127,8 @@ public class ProyectController {
     }
 
     @GetMapping("/getProject/{id}")
-    
     @Operation(summary =  "Get a Project", description = "Retrieves a project in the system")
-    public ResponseEntity<Project> getProject(@RequestParam Integer id) {
+    public ResponseEntity<Project> getProject(@PathVariable Integer id) {
         try {
             Project project = proyectService.getProject(id);
             if (project == null) {

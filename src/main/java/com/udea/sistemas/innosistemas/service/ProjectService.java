@@ -107,7 +107,7 @@ public class ProjectService {
 
             project.setIs_deleted(true);
 
-            project = projectRepository.save(project);
+            projectRepository.save(project);
             return true;
         } catch (Exception e) {
 
@@ -130,10 +130,9 @@ public class ProjectService {
     public Project getProject(Integer projectID){
         try {
             if(existProject(projectID)) {
-                Project project = projectRepository.findById(projectID)
-                        .orElseThrow(() -> new IllegalArgumentException("No se encontró el proyecto con id " + projectID));
 
-                return project;
+                return projectRepository.findById(projectID)
+                        .orElseThrow(() -> new IllegalArgumentException("No se encontró el proyecto con id " + projectID));
             }
             return null;
         }catch (Exception e) {

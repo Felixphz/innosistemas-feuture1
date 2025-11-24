@@ -32,7 +32,6 @@ public class TeamService {
         try {
             if (!teamDto.nameTeam().isEmpty() && teamDto.projectId() != null) {
                 if (teamDto.students() == null || teamDto.students().size() < MIN_MEMBERS || teamDto.students().size() > MAX_MEMBERS) {
-                    System.err.println("Error: Un equipo debe tener entre " + MIN_MEMBERS + " y " + MAX_MEMBERS + " usuarios");
                     return false;
                 }
 
@@ -72,7 +71,6 @@ public class TeamService {
                 return true;
             }
         } catch (Exception e) {
-            System.err.println("Error al crear el equipo: " + e.getMessage());
             return false;
         }
         return false;
@@ -88,7 +86,6 @@ public class TeamService {
                 return true;
             }
         } catch (Exception e) {
-            System.err.println("Error al eliminar el equipo: " + e.getMessage());
             return false;
         }
         return false;
@@ -98,18 +95,15 @@ public class TeamService {
     public boolean updateTeam(Integer teamId, TeamShowDto teamDto) {
         try {
             if (teamDto == null || teamDto.nameTeam() == null || teamDto.nameTeam().trim().isEmpty()) {
-                System.err.println("Error: Datos del equipo inválidos");
                 return false;
             }
 
             if (teamDto.students() == null || teamDto.students().size() < MIN_MEMBERS || teamDto.students().size() > MAX_MEMBERS) {
-                System.err.println("Error: Un equipo debe tener entre " + MIN_MEMBERS + " y " + MAX_MEMBERS + " miembros");
                 return false;
             }
 
             Optional<Team> optionalTeam = teamRepository.findById(teamId);
             if (!optionalTeam.isPresent()) {
-                System.err.println("Error: Equipo no encontrado con ID: " + teamId);
                 return false;
             }
 
@@ -133,7 +127,6 @@ public class TeamService {
 
             for (UserDto userDto : teamDto.students()) {
                 if (userDto.email() == null || userDto.email().trim().isEmpty()) {
-                    System.err.println("Error: Email de usuario inválido");
                     return false;
                 }
 
@@ -157,11 +150,9 @@ public class TeamService {
 
             teamRepository.save(team);
 
-            System.out.println("Equipo actualizado exitosamente: " + team.getNameTeam() + " con State: " + nuevoState);
             return true;
 
         } catch (Exception e) {
-            System.err.println("Error al actualizar el equipo: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -198,7 +189,9 @@ public class TeamService {
                     TeamState State = TeamState.valueOf(status.toUpperCase());
                     predicates.add(cb.equal(root.get("State"), State));
                 } catch (IllegalArgumentException e) {
-                    System.err.println("State no válido para filtro: " + status);
+
+                    e.printStackTrace();            // imprime el error
+                    throw e;
                 }
             }
 
@@ -244,7 +237,6 @@ public class TeamService {
             if (team.getState() != nuevoState) {
                 team.setState(nuevoState);
                 teamRepository.save(team);
-                System.out.println("State actualizado automáticamente a: " + nuevoState);
             }
         }
     }

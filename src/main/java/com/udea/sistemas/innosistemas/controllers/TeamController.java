@@ -1,6 +1,7 @@
 package com.udea.sistemas.innosistemas.controllers;
 import java.util.List;
 
+import com.udea.sistemas.innosistemas.models.dto.TeamFilterDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -46,7 +47,7 @@ public class TeamController {
                     team.getProject().getId(),
                     team.getProject().getNameProject(),
                     team.getProject().getCourseId(),
-                    team.getMembers().stream().map(member -> new UserDto(
+                    team.getState(), team.getMembers().stream().map(member -> new UserDto(
                             member.getUser().getEmail(),
                             member.getUser().getNameUser()
                     )).toList()
@@ -91,7 +92,24 @@ public class TeamController {
             }
             return ResponseEntity.notFound().build();
         }
-    
+
+
+
+    @PostMapping("/filter")
+    public ResponseEntity<List<TeamShowDto>> filterTeams(
+            @RequestBody TeamFilterDto filterDto
+    ) {
+        return ResponseEntity.ok(
+                teamService.filterTeams(
+                        filterDto.nameTeam(),
+                        filterDto.projectId(),
+                        filterDto.courseId(),
+                        filterDto.status()
+                )
+        );
     }
+
+
+}
 
 

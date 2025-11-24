@@ -3,9 +3,12 @@ package com.udea.sistemas.innosistemas.models.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
 @Entity
 @Table(name = "projects", schema="public")
+@Data
+
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Projects_id_gen")

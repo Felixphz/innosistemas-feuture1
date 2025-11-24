@@ -44,8 +44,8 @@ public class TeamService {
                 team.setProject(project);
 
                 // Determinar State basado en la cantidad de miembros
-                TeamState State = determineState(teamDto.students().size());
-                team.setState(State);
+                TeamState teamState = determineState(teamDto.students().size());
+                team.setState(teamState);
 
                 team = teamRepository.save(team);
 
@@ -186,8 +186,8 @@ public class TeamService {
             // Filtro por State usando el enum TeamState
             if (status != null && !status.trim().isEmpty()) {
                 try {
-                    TeamState State = TeamState.valueOf(status.toUpperCase());
-                    predicates.add(cb.equal(root.get("State"), State));
+                    TeamState teamState = TeamState.valueOf(status.toUpperCase());
+                    predicates.add(cb.equal(root.get("State"), teamState));
                 } catch (IllegalArgumentException e) {
 
                     e.printStackTrace();            // imprime el error
@@ -198,22 +198,22 @@ public class TeamService {
             return cb.and(predicates.toArray(new Predicate[0]));
         });
 
-        return teams.stream().map(team -> {
-            return new TeamShowDto(
-                    team.getIdTeam(),
-                    team.getNameTeam(),
-                    team.getProject().getId(),
-                    team.getProject().getNameProject(),
-                    team.getProject().getCourseId(),
-                    team.getState(), // Incluir el State TeamState en el DTO
-                    team.getMembers().stream()
-                            .map(usersTeam -> new UserDto(
-                                    usersTeam.getUser().getEmail(),
-                                    usersTeam.getUser().getNameUser()
-                            ))
-                            .toList()
-            );
-        }).toList();
+        return teams.stream()
+                .map(team -> new TeamShowDto(
+                        team.getIdTeam(),
+                        team.getNameTeam(),
+                        team.getProject().getId(),
+                        team.getProject().getNameProject(),
+                        team.getProject().getCourseId(),
+                        team.getState(),
+                        team.getMembers().stream()
+                                .map(usersTeam -> new UserDto(
+                                        usersTeam.getUser().getEmail(),
+                                        usersTeam.getUser().getNameUser()
+                                ))
+                                .toList()
+                )).toList();
+
     }
 
     /**

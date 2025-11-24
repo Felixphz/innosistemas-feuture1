@@ -69,7 +69,6 @@ public class TeamService {
                 }
 
                 teamRepository.save(team);
-                System.out.println("Equipo creado exitosamente con State: " + State);
                 return true;
             }
         } catch (Exception e) {

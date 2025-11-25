@@ -17,7 +17,7 @@ public class CorsConfig {
         
         // Permitir solicitudes desde el frontend (puerto 3004)
         configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3004", "http://127.0.0.1:3004", "https://frontend-innosistemas-sprint2-2hos-822xwsx0r.vercel.app",
-            "https://frontend-innosistemas-sprint2.vercel.app"));
+            "https://frontend-innosistemas-sprint2.vercel.app", "https://frontend-innosistemas-sprint3.vercel.app"));
         
         // Permitir todos los métodos HTTP
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));

@@ -64,7 +64,7 @@ public class CourseController {
     }
 
     @Operation(summary = "Actualizar un curso existente")
-    @PreAuthorize("hasAuthority('update_courses')")
+    @PreAuthorize("hasAuthority('update_course')")
     @ApiResponse(responseCode = "200", description = "Curso actualizado exitosamente")
     @PutMapping("/update")
     public ResponseEntity<CourseDto> updateCourse( @RequestBody CourseDto dto) {
@@ -73,7 +73,7 @@ public class CourseController {
     }
 
     @Operation(summary = "Eliminar un curso (borrado lógico)")
-    @PreAuthorize("hasAuthority('delete_courses')")
+    @PreAuthorize("hasAuthority('delete_course')")
     @ApiResponse(responseCode = "204", description = "Curso eliminado exitosamente")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCourse(@PathVariable int id) {
